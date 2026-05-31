@@ -28,141 +28,41 @@ A web-based sentiment analysis application using **VADER** and **RoBERTa** model
 
 - Input text area for user to enter review or comment text
 - Option to select which models to use (VADER, RoBERTa, or both)
+- Option to display the result as a bar chart or not
 
 ## Installation
 
-1. **Create virtual environment** (if not already done):
+1. Clone the repository:
    ```bash
-   python3 -m venv venv
-   source venv/bin/activate  # On Windows: venv\Scripts\activate
-   ```
-
-2. **Install dependencies**:
+    git clone https://github.com/PreyumKr/Semantic_Analyser.git
+    cd Semantic_Analyser
+    ```
+2. Create a virtual environment and activate it:
    ```bash
-   pip install -r requirements_app.txt
-   ```
-
-   Or if you already have the packages installed, just add Streamlit:
+    python -m venv venv
+    source venv/bin/activate  # On Windows: venv\Scripts\activate
+    ```
+3. Install the required dependencies:
    ```bash
-   pip install streamlit==1.41.1
-   ```
-
-## Running the App
-
-```bash
-streamlit run app.py
-```
-
-This will:
-- Open a browser window at `http://localhost:8501`
-- Display the sentiment analysis interface
-- Models will be downloaded on first run (may take a few minutes)
-
+    pip install -r requirements.txt (for CPU)
+    pip install -r requirements_gpu.txt (for GPU)
+    ```
+4. Run the Streamlit app:
+   ```bash
+    streamlit run streamlit_app.py
+    ```
 ## Usage
 
-1. **Enter Text**: Type or paste text in the text area
-2. **Click Analyze**: Press the "Analyze Sentiment" button
-3. **View Results**: 
-   - See VADER scores and sentiment
-   - See RoBERTa prediction with confidence
-   - Compare both models side-by-side
+1. Open the app in your browser (usually at `http://localhost:8501`).
+2. Enter a review or comment in the text area.
+3. Select which models to use for sentiment analysis (VADER, RoBERTa, or both). The settings are present in the sidebar, that can be accessed by clicking the "Settings" button in the top-left corner of the app.
+4. Optionally, select whether to display the results as a bar chart.
+5. Click the "Analyze Sentiment" button to see the results.
 
-## Models Used
+## Future Enhancements that can be done
 
-### VADER (Valence Aware Dictionary and sEntiment Reasoner)
-- **Type**: Lexicon-based
-- **Speed**: Very fast
-- **Resource**: CPU only
-- **Score Range**: -1 to 1
-- **Output**: Positive, Negative, Neutral, Compound scores
-
-### RoBERTa (Robustly Optimized BERT Pretraining Approach)
-- **Type**: Fine-tuned transformer model
-- **Speed**: Slower than VADER
-- **Resource**: CPU-compatible
-- **Score Range**: 0 to 1 (per label)
-- **Model**: `cardiffnlp/twitter-roberta-base-sentiment`
-- **Output**: Negative, Neutral, Positive probabilities
-
-## Interpreting Results
-
-### VADER Compound Score
-- **≥ 0.05**: Positive sentiment
-- **≤ -0.05**: Negative sentiment
-- **Between -0.05 and 0.05**: Neutral sentiment
-
-### RoBERTa Confidence
-- Shows probability for each sentiment label
-- Higher score = more confident prediction
-- Best for context-aware analysis
-
-## Example Outputs
-
-**Positive Input**: "This product is amazing!"
-- VADER: Compound ≈ 0.76 (Positive)
-- RoBERTa: Positive ≈ 0.98
-
-**Negative Input**: "Terrible experience, very disappointed"
-- VADER: Compound ≈ -0.81 (Negative)
-- RoBERTa: Negative ≈ 0.99
-
-## Requirements
-
-- Python 3.8+
-- 2GB+ RAM
-- GPU optional (app runs on CPU)
-- Internet connection (for downloading models on first run)
-
-## File Structure
-
-```
-Semantic_Analyser/
-├── app.py                 # Streamlit app
-├── requirements_app.txt   # Python dependencies
-├── Sentiment_analysis.ipynb # Original notebook
-├── data/
-│   └── Reviews.csv       # Sample data
-└── README.md             # This file
-```
-
-## Troubleshooting
-
-**Models take too long to load?**
-- First run downloads models from HuggingFace (~1GB total)
-- Subsequent runs use cached models
-
-**Port 8501 already in use?**
-```bash
-streamlit run app.py --server.port 8502
-```
-
-**Out of memory?**
-- VADER uses minimal memory (< 50MB)
-- RoBERTa uses ~500MB
-- Should work on most systems
-
-## Performance
-
-- **Single paragraph (< 512 tokens)**: ~1-3 seconds
-- **VADER alone**: < 0.1 seconds
-- **RoBERTa alone**: ~1-2 seconds
-- **Both models**: ~2-3 seconds
-
-## Future Enhancements
-
-- [ ] Batch processing for multiple texts
-- [ ] Aspect-based sentiment analysis
-- [ ] Emotion detection
-- [ ] Language support beyond English
 - [ ] Save results to CSV
-- [ ] Model fine-tuning interface
+- [ ] Batch processing for multiple texts
+- [ ] Emotion detection (e.g., joy, anger, sadness)
+- [ ] Language support beyond English (e.g., multilingual models)
 
-## License
-
-MIT License - Feel free to use and modify
-
-## References
-
-- VADER: https://github.com/cjhutto/vaderSentiment
-- RoBERTa: https://huggingface.co/cardiffnlp/twitter-roberta-base-sentiment
-- Streamlit: https://streamlit.io/
